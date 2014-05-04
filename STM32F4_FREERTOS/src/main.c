@@ -4,8 +4,6 @@
  * @date: 	9 kwi 2014
  * @author: Michal Ksiezopolski
  *
- * This is a very simple library for controlling
- * LEDs.
  *
  * @verbatim
  * Copyright (c) 2014 Michal Ksiezopolski.
@@ -56,7 +54,7 @@ int main(void)
 {
 
 	// Create an example task
-	xTaskCreate( BlinkerTask, "Blink", configMINIMAL_STACK_SIZE, NULL, 1, NULL );
+	xTaskCreate(BlinkerTask, "LED", configMINIMAL_STACK_SIZE, NULL, 1, NULL);
 
 	// Start the scheduler
 	vTaskStartScheduler();
