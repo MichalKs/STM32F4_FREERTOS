@@ -19,7 +19,7 @@
  */
 
 
-//#include <comm.h>
+#include <comm.h>
 
 /**
  * @defgroup  STUBS STUBS
@@ -74,10 +74,10 @@ int _read(int fileHandle, char *buf, int len) {
  */
 int _write(int fileHandle, char *buf, int len) {
 
-//  int i;
-//  for (i=0; i<len; i++) {
-//    COMM_Putc((uint8_t)buf[i]);
-//  }
+  int i;
+  for (i=0; i<len; i++) {
+    COMM_Putc((uint8_t)buf[i]);
+  }
 
   return len;
 }

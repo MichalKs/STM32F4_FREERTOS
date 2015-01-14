@@ -18,7 +18,12 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <FreeRTOS.h>
+#include <task.h>
 #include <led.h>
+#include <comm.h>
+#include <malloc.h>
+#include <utils.h>
 
 #define DEBUG
 
@@ -30,32 +35,8 @@
 #define println(str, args...) (void)0
 #endif
 
-
-#include "FreeRTOS.h"
-#include "task.h"
-#include <stdio.h>
-
-/**
- * @brief Task for blinking an LED
- * @param param
- */
-void BlinkerTask(void* param) {
-
-  LED_Init(LED0); // Add an LED
-  LED_Init(LED1); // Add an LED
-  LED_Init(LED2); // Add an LED
-  LED_Init(LED3); // Add an LED
-  LED_Init(LED5); // Add nonexising LED for test
-
-
-  while (1) {
-
-    LED_Toggle(LED0);
-    LED_Toggle(LED1);
-    uint32_t i = 3000000;
-    while (i--); // delay
-  }
-}
+void blinkerTask(void* param);
+void printerTask(void* param);
 
 /**
  * @brief Main
@@ -63,25 +44,77 @@ void BlinkerTask(void* param) {
  */
 int main(void) {
 
+  COMM_Init(115200);
+
   // Create an example task
-  xTaskCreate(BlinkerTask, "LED", 128, NULL,
+  xTaskCreate(blinkerTask, "LED", 256, NULL,
       tskIDLE_PRIORITY+1, NULL);
+
+  xTaskCreate(printerTask, "COM", 256, NULL,
+      tskIDLE_PRIORITY+2, NULL);
 
   // Start the scheduler
   vTaskStartScheduler();
 
+  // shouldn't reach here
+  while (1);
+
+}
+
+/**
+ * @brief Task for blinking an LED
+ * @param param
+ */
+void blinkerTask(void* param) {
+
+  LED_Init(LED0); // Add an LED
+  LED_Init(LED1); // Add an LED
+  LED_Init(LED2); // Add an LED
+  LED_Init(LED3); // Add an LED
+  LED_Init(LED5); // Add nonexising LED for test
+
+  char* ptr = (char*)malloc(512);
+
+  for (int i = 0; i < 512; i++) {
+    ptr[i] = i;
+  }
+  hexdump(ptr, 512);
+
   while (1) {
 
+
+    LED_Toggle(LED0);
+    LED_Toggle(LED1);
+    vTaskDelay(1000);
+  }
+}
+/**
+ * @brief Task for printing strings to terminal.
+ * @param param
+ */
+void printerTask(void* param) {
+
+  while (1) {
+
+    println("Hello World from STM32F4");
+    vTaskDelay(1000);
   }
 
 }
 
-
-void vApplicationMallocFailedHook (void) {
-
+/**
+ *
+ */
+void vApplicationMallocFailedHook(void) {
+  println("+++++++++++++++++++ Malloc failed");
 }
-
-void vApplicationStackOverflowHook( xTaskHandle *pxTask, signed char *pcTaskName ) {
-
+/**
+ *
+ * @param pxTask
+ * @param pcTaskName
+ */
+void vApplicationStackOverflowHook(xTaskHandle *pxTask,
+    signed char *pcTaskName ) {
+  println("******************* Stack overflow");
 }
 
