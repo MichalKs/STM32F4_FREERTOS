@@ -58,11 +58,10 @@ void BlinkerTask(void* param) {
 }
 
 /**
- *
- * @return
+ * @brief Main
+ * @return None
  */
-int main(void)
-{
+int main(void) {
 
   // Create an example task
   xTaskCreate(BlinkerTask, "LED", 128, NULL,
