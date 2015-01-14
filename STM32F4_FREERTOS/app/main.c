@@ -73,12 +73,15 @@ void blinkerTask(void* param) {
   LED_Init(LED3); // Add an LED
   LED_Init(LED5); // Add nonexising LED for test
 
-  char* ptr = (char*)malloc(512);
+  char* ptr = (char*)malloc(501);
 
-  for (int i = 0; i < 512; i++) {
-    ptr[i] = i;
+  if (ptr) {
+    for (int i = 0; i < 512; i++) {
+      ptr[i] = i;
+    }
+    hexdump(ptr, 512);
   }
-  hexdump(ptr, 512);
+
 
   while (1) {
 
