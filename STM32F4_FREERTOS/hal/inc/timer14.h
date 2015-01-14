@@ -1,8 +1,8 @@
 /**
- * @file: 	comments.h
- * @brief:	   
- * @date: 	9 kwi 2014
- * @author: Michal Ksiezopolski
+ * @file    timer14.h
+ * @brief   TIMER14 control
+ * @date    10 paź 2014
+ * @author  Michal Ksiezopolski
  * 
  * @verbatim
  * Copyright (c) 2014 Michal Ksiezopolski.
@@ -15,17 +15,24 @@
  * @endverbatim
  */
 
-#ifndef COMMENTS_H_
-#define COMMENTS_H_
+#ifndef TIMER14_H_
+#define TIMER14_H_
 
 /**
- * @defgroup 	StandardDrivers Standard Peripheral Drivers
- * @brief		Hardware
+ * @defgroup  TIMER14 TIMER14
+ * @brief     TIMER14 control functions
  */
 
 /**
- * @defgroup 	Timers Timers
- * @brief		Timers
+ * @addtogroup TIMER14
+ * @{
  */
 
-#endif /* COMMENTS_H_ */
+void TIMER14_Init(void);
+uint32_t TIMER14_GetTime(void);
+
+/**
+ * @}
+ */
+
+#endif /* TIMER14_H_ */
